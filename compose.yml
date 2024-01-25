@@ -1,0 +1,14 @@
+services:
+  backend:
+    build:
+      context: .
+    volumes:
+      - /home/m8u/code/effectivemobile:/app
+    ports:
+      - 8000:8000
+  db:
+    image: postgres:latest
+    env_file:
+      - .env
+    ports:
+      - 5432:5432
