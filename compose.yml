@@ -3,7 +3,7 @@ services:
     build:
       context: .
     volumes:
-      - /home/m8u/code/effectivemobile:/app
+      - .:/app
     ports:
       - 8000:8000
   db:
