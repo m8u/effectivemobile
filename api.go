@@ -2,8 +2,8 @@ package main
 
 import (
 	"encoding/json"
+	log "github.com/sirupsen/logrus"
 	"io"
-	"log"
 	"net/http"
 	"os"
 )
@@ -15,7 +15,8 @@ type agifyResponse struct {
 func getAge(name string) (int8, error) {
 	resp, err := http.Get(os.Getenv("AGIFY_URL") + "/?name=" + name)
 	if err != nil {
-		log.Printf("failed to get age for '%s'", name)
+		log.Debugf("failed to get age for '%s'", name)
+		return 0, err
 	}
 
 	body, err := io.ReadAll(resp.Body)
@@ -37,7 +38,7 @@ type genderizeResponse struct {
 func getGender(name string) (Gender, error) {
 	resp, err := http.Get(os.Getenv("GENDERIZE_URL") + "/?name=" + name)
 	if err != nil {
-		log.Printf("failed to get gender for '%s'", name)
+		log.Debugf("failed to get gender for '%s'", name)
 	}
 
 	body, err := io.ReadAll(resp.Body)
@@ -62,11 +63,10 @@ type nationalizeResponse struct {
 func getNationality(name string) (Nationality, error) {
 	resp, err := http.Get(os.Getenv("NATIONALIZE_URL") + "/?name=" + name)
 	if err != nil {
-		log.Printf("failed to get nationality for '%s'", name)
+		log.Debugf("failed to get nationality for '%s'", name)
 	}
 
 	body, err := io.ReadAll(resp.Body)
-	log.Println(string(body))
 	if err != nil {
 		return "", err
 	}
